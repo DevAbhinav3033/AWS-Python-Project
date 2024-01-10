@@ -1,0 +1,28 @@
+org: yadav3033
+app: lambda-demo
+service: aws-python-project
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: python3.9
+
+plugins:
+  - serverless-lift
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http:
+          path: /hello
+          method: post
+    
+constructs:
+  my-queue:
+    type: queue
+    worker:
+      handler: handler.hello
+
+
