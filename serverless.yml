@@ -7,9 +7,14 @@ frameworkVersion: '3'
 provider:
   name: aws
   runtime: python3.9
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - sqs:CreateQueue
+        - sqs:SendMessage
+      Resource: '*'
 
-plugins:
-  - serverless-lift
+
 
 functions:
   hello:
@@ -18,11 +23,12 @@ functions:
       - http:
           path: /hello
           method: post
-    
-constructs:
-  my-queue:
-    type: queue
-    worker:
-      handler: handler.hello
+   
 
+resources:
+  Resources:
+    MyQueue:
+      Type: AWS::SQS::Queue
+      Properties: 
+        QueueName: my-queue
 
