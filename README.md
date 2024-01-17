@@ -1,20 +1,5 @@
 
 # AWS Python Project
 
-Triggers a Lambda through API Gateway and dispatch the messages to SQS
+Triggers a Lambda through CRON job, fetches weather from an API and  dispatch the messages to SQS
 
-
-## API Reference
-
-#### Post 
-
-```http
-  POST /hello
-```
-
-
-
-
-## Documentation
-
-[Documentation](https://documenter.getpostman.com/view/30390337/2s9YsKgXfn)
