@@ -6,7 +6,7 @@ frameworkVersion: '3'
 
 provider:
   name: aws
-  runtime: python3.9
+  runtime: python3.11
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -15,20 +15,20 @@ provider:
       Resource: '*'
 
 
-
 functions:
   hello:
     handler: handler.hello
+    layers:
+      - { Ref: PythonRequirementsLambdaLayer }
     events:
-      - http:
-          path: /hello
-          method: post
-   
+      - schedule: cron(0/15 * * * ? *)
 
-resources:
-  Resources:
-    MyQueue:
-      Type: AWS::SQS::Queue
-      Properties: 
-        QueueName: my-queue
+
+layers:
+  pythonRequirements:
+    name: PythonRequirementsLambdaLayer
+    package:
+      artifact: python.zip
+    compatibleRuntimes:
+      - python3.11
 

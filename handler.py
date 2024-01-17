@@ -1,25 +1,38 @@
 import json
 import boto3
 
-sqs = boto3.client('sqs')
-response = sqs.create_queue(
-    QueueName='my-queue'
-)
-queue_url = response['QueueUrl']
+from weather import get_weather
 
+sqs = boto3.client('sqs')
+
+queue_url= "https://sqs.us-east-1.amazonaws.com/054244991161/weatherQueue"
 
 def hello(event, context):
+
     try:
 
+        api_key="3e0fbfc49fd7db4fe91532d351fafd87"
+        city="Gurgaon"
+        
+        # Calling weather api function to fetch weather details
+        data=get_weather(api_key,city)   
+        print(data)
+
+        # Sending the received data to sqs
         response=sqs.send_message(
             QueueUrl=queue_url,
-            MessageBody=(json.dumps(event))
+            MessageBody=(json.dumps(data))
         )
+
+        
         print (f"Message successfully sent, Message Id : {response['MessageId']}")
+
+        # Returning the response from the function
         return {
             "statusCode" : 200 ,
             "body" : json.dumps(response)
         }
+    
     except Exception as e:
         print (e)
         return {
