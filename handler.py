@@ -1,5 +1,6 @@
 import json
 import boto3
+import os
 
 from weather import get_weather
 
@@ -11,7 +12,7 @@ def hello(event, context):
 
     try:
 
-        api_key="3e0fbfc49fd7db4fe91532d351fafd87"
+        api_key=os.environ.get('WEATHER_API')
         city="Gurgaon"
         
         # Calling weather api function to fetch weather details

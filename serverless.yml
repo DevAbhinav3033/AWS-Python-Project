@@ -13,6 +13,8 @@ provider:
         - sqs:CreateQueue
         - sqs:SendMessage
       Resource: '*'
+  environment:
+    WEATHER_API: ${ssm:weather-api}
 
 
 functions:
@@ -21,6 +23,9 @@ functions:
     layers:
       - { Ref: PythonRequirementsLambdaLayer }
     events:
+      # - http:
+      #     path : /hello
+      #     method : get
       - schedule: cron(0/15 * * * ? *)
 
 
